@@ -9,6 +9,8 @@ public class Carro {
     public String data;
     public String hora;
     public boolean visibilidade;
+
+
     public String datasaida;
     public String horasaida;
     public int valorAPagar;

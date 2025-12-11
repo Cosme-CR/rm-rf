@@ -93,7 +93,7 @@ public class CarroReposytory    {
 
                 if (dados[1].equalsIgnoreCase(placaBuscada) && dados[6].equals("true")) {
 
-                    //String recebeValor=  calculo(dados[4], dados[5]);
+                    String recebeValor =  calculo(dados[5], dados[4]);
 
                     return new String[]{
                             dados[1], // placa
@@ -102,7 +102,7 @@ public class CarroReposytory    {
                             dados[4], // data
                             dados[5],  // hora
                             dados[6] = "caiu",
-                            dados[7] = "vasco"
+                            dados[7] = recebeValor
                     };
                 }
             }
@@ -126,7 +126,6 @@ public class CarroReposytory    {
         Duration tempo = Duration.between(horaentrada, horaDeSaida);
 
         long Minutos = tempo.toMinutes();
-
         float recebeMinutos = Minutos ;
         float convertido = (recebeMinutos / 60);
         int intConvertido = (int) convertido;
@@ -140,6 +139,7 @@ public class CarroReposytory    {
             valorPagamento = 10;
             intConvertido = (intConvertido - 1) ;
             valorPagamento = valorPagamento + (intConvertido * 5);
+
             if (resto > 0.083 ) {
                 valorPagamento = valorPagamento + 5;
             }
