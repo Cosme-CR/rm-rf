@@ -14,6 +14,9 @@ import java.util.UUID;
 
 public class telaRegistro extends VBox {
     public telaRegistro() {
+        setStyle("-fx-background-color:F5E4D4 ");
+
+
         montaTelaRegistro();
     }
 
@@ -27,8 +30,7 @@ public class telaRegistro extends VBox {
 
         // caixa principal onde ficara tudo
         HBox corpo = new HBox();
-        //caixa onde ficara os formulario
-        //VBox caixaDeFormulario = new VBox();
+        //formulario
         GridPane gridformulario = new GridPane();
 
         //criacao dos titulos
@@ -44,7 +46,7 @@ public class telaRegistro extends VBox {
         Label TituloHoraEntrada = new Label("Hora de entrada:");
 
 
-        //como os botoes ficarao na tela
+        //como os botoes ficarao na tela/formulario
         gridformulario.add(tituloPlaca, 0, 0);
         gridformulario.add(textfildPlaca, 1, 0);
         gridformulario.add(tituloModeloVeiculo, 0, 1);
@@ -54,6 +56,13 @@ public class telaRegistro extends VBox {
 
         gridformulario.add(TituloDataEntrada, 0, 3);
         gridformulario.add(TituloHoraEntrada, 0, 4);
+
+        gridformulario.setStyle(
+                "-fx-hgap: 15px;" +
+                "-fx-vgap: 12px;" +
+                "-fx-padding: 20px;"  // espaço interno do GridPane
+        );
+
 
 
 
@@ -86,7 +95,10 @@ public class telaRegistro extends VBox {
         Button botaoRegistrar = new Button("Registrar");
         botaoRegistrar.setOnAction(e -> {
             LocalDateTime data = LocalDateTime.now();
+
+
             CarroReposytory cr = new CarroReposytory();
+
             Carro carro = new Carro();
 
             carro.id = UUID.randomUUID().toString();

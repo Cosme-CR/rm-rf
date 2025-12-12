@@ -12,11 +12,14 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class CarroReposytory    {
     //registro é o registro.csv
     private Path registro = Paths.get("/home/cosme/projetos/Gestor-Estacionamento/dados/registro.csv");
+    private Path historico = Paths.get("/home/cosme/projetos/Gestor-Estacionamento/dados/historico.csv");
+
 
     public void salvar (Carro carro) {
         try {
@@ -28,19 +31,15 @@ public class CarroReposytory    {
         }
     }
 
+    public void salvahistorico(String resgistro){
+        try {
+            Files.writeString(historico, resgistro+"\n", StandardOpenOption.APPEND);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
 
-    /*
-    * função de calcula
-    * rebebe dados pelos parentese
-    * e retorna so o valor so pra teste
-    *
-    * calculo de subtração basico
-    * caso de errado fazer via incremento pra pegar a quantidade de minutos exata
-    *
-    *
-    *
-    * */
     public List<String> exibir (){
         List<String> carros = new ArrayList<>();
 
@@ -94,15 +93,19 @@ public class CarroReposytory    {
                 if (dados[1].equalsIgnoreCase(placaBuscada) && dados[6].equals("true")) {
 
                     String recebeValor =  calculo(dados[5], dados[4]);
-
+                    String dataSaida = String.valueOf(LocalDate.now());
+                    String horaSaida = String.valueOf(LocalTime.now());
                     return new String[]{
-                            dados[1], // placa
-                            dados[2], // modelo
-                            dados[3], // proprietario
-                            dados[4], // data
-                            dados[5],  // hora
-                            dados[6] = "caiu",
-                            dados[7] = recebeValor
+                            dados[0],           //id
+                            dados[1],          // placa
+                            dados[2],          // modelo
+                            dados[3],          // proprietario
+                            dados[4],          // data
+                            dados[5],          // hora
+                            dados[6],         // visibilidade
+                            dados[7] = dataSaida,         //data de saida
+                            dados[8] = horaSaida,         // hora de saida
+                            dados[9] =recebeValor         // valor a pagar
                     };
                 }
             }
@@ -112,6 +115,14 @@ public class CarroReposytory    {
         return null; // não achou
     }
 
+    public String converte (){
+        String convertido= "";
+
+
+
+
+        return convertido;
+    };
 
 
 
@@ -119,7 +130,6 @@ public class CarroReposytory    {
 
     public String calculo(String horaEntrada, String dataEntrada){
         String valorPagoTexto = " ";
-
         LocalTime horaDeSaida = LocalTime.now();
         LocalTime horaentrada = LocalTime.parse(horaEntrada);
 
@@ -145,9 +155,7 @@ public class CarroReposytory    {
             }
 
         }
-
         valorPagoTexto = String.valueOf(valorPagamento);
-
         return valorPagoTexto ;
     }
 
@@ -163,6 +171,9 @@ public class CarroReposytory    {
             List<String> novasLinhas = new ArrayList<>();
 
             boolean atualizado = false;
+            //String data = String.valueOf(LocalDate.now());
+            //String horasaida = String.valueOf(LocalTime.now());
+
 
             for (String linha : linhas) {
                 String[] dados = linha.split(";");
@@ -170,11 +181,16 @@ public class CarroReposytory    {
                 if (dados[1].equalsIgnoreCase(placaBuscada) && dados[6].equals("true")) {
                     // altera visibilidade para false
                     dados[6] = "false";
+                    //dados[]
 
                     // recria a linha com dados modificados
                     linha = String.join(";", dados);
 
                     atualizado = true;
+
+                    String[] teste= busca(placaBuscada);
+                    String conetrtido = teste[0] +";"+ teste[1]+";" + teste[2] +";"+ teste[3]+";"+ teste[4]+";"+ teste[5]+";"+ teste[6]+";"+ teste[7]+";"+ teste[8]+";"+ teste[9]+";";
+                    salvahistorico(conetrtido);
                 }
 
                 novasLinhas.add(linha);
@@ -182,6 +198,8 @@ public class CarroReposytory    {
 
             // salva tudo de volta
             Files.write(registro, novasLinhas);
+
+            salvahistorico(Arrays.toString(busca(placaBuscada)));
 
             return atualizado;
 

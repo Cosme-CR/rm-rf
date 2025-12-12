@@ -16,6 +16,7 @@ import java.util.List;
 public class telaInicial extends VBox {
 
     public telaInicial() {
+        setStyle("-fx-background-color:F5E4D4 ");
 
         montarTela();
     }
@@ -89,6 +90,8 @@ public class telaInicial extends VBox {
         List<String> carrosExibidos = repo.exibir();
 
         ListView<String> listaCarros = new ListView<>();
+
+
 
         listaCarros.getItems().addAll(carrosExibidos);
 
